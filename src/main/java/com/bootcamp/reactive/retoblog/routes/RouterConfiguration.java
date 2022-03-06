@@ -1,8 +1,6 @@
 package com.bootcamp.reactive.retoblog.routes;
 
-import com.bootcamp.reactive.retoblog.handlers.AuthorHandler;
-import com.bootcamp.reactive.retoblog.handlers.BlogHandler;
-import com.bootcamp.reactive.retoblog.handlers.PostHandler;
+import com.bootcamp.reactive.retoblog.handlers.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RequestPredicates;
@@ -51,4 +49,27 @@ public class RouterConfiguration {
                 );
     }
 
+    @Bean
+    public RouterFunction<ServerResponse> commentRoutes(CommentHandler commentHandler){
+        return RouterFunctions.nest(RequestPredicates.path("/comments"),
+                RouterFunctions.route(GET(""), commentHandler::findAll)
+                        .andRoute(POST("").and(accept(APPLICATION_JSON)),commentHandler::save)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> reactionRoutes(ReactionHandler reactionHandler){
+        return RouterFunctions.nest(RequestPredicates.path("/reactions"),
+                RouterFunctions.route(GET(""), reactionHandler::findAll)
+                        .andRoute(POST("").and(accept(APPLICATION_JSON)),reactionHandler::save)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> userRoutes(UserHandler userHandler){
+        return RouterFunctions.nest(RequestPredicates.path("/users"),
+                RouterFunctions.route(GET(""), userHandler::findAll)
+                        .andRoute(POST("").and(accept(APPLICATION_JSON)),userHandler::save)
+        );
+    }
 }

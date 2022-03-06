@@ -7,21 +7,18 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 import java.util.List;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(value="posts")
-public class Post {
+@Document(value="users")
+public class User {
     @Id
     private String id;
-    private String title;
-    private Date date;
-    private String status;
-    private String content;
+    private String login;
+    private String password;
+    private String authorId;
     private List<Comment> comments;
-    private List<Reaction> reactions;
 }

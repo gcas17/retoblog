@@ -8,20 +8,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(value="posts")
-public class Post {
+@Document(value="reactions")
+public class Reaction {
     @Id
     private String id;
-    private String title;
+    private String type;
     private Date date;
-    private String status;
-    private String content;
-    private List<Comment> comments;
-    private List<Reaction> reactions;
+    private String userId;
 }

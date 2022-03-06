@@ -13,5 +13,6 @@ public interface AuthorRepository extends ReactiveMongoRepository<Author,String>
 
     Flux<Author> findByName(String name);
 
-    Mono<Boolean>existsByEmail(String email);
+    Mono<Boolean> existsByEmail(String email);
+
 }
