@@ -1,0 +1,464 @@
+{
+	"info": {
+		"_postman_id": "1bd2a3be-5f6e-46f7-8eac-32dfe9adb2bd",
+		"name": "RETO3 BLOG REACTIVE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BLOG",
+			"item": [
+				{
+					"name": "LISTAR BLOGS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/blogs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"blogs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GUARDAR BLOG",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Dietas\",\r\n    \"authorId\": \"6225bb95b2acea1d36d9354e\",\r\n    \"url\": \"blogdeautor.blogspot.com\",\r\n    \"status\": \"Activo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/blogs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"blogs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LISTAR BLOGS POR AUTHOR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/blogs/author/6224ed352e90827377415c7f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"blogs",
+								"author",
+								"6224ed352e90827377415c7f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AUTHOR",
+			"item": [
+				{
+					"name": "LISTAR AUTOR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/authors/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GUARDAR AUTOR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Autor 1\",\r\n    \"email\": \"autor1@gmail.com\",\r\n    \"phone\": \"941131257\",\r\n    \"birthDate\": \"2000-02-10T16:00:00.000+00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/authors/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ELIMINAR AUTOR",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/authors/6225bb95b2acea1d36d9354e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								"6225bb95b2acea1d36d9354e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COMMENT",
+			"item": [
+				{
+					"name": "LISTAR COMENTARIOS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GUARDAR COMENTARIO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2022-02-10T16:00:00.000+00:00\",\r\n    \"name\": \"Comentarista 1\",\r\n    \"status\": \"ACTIVO\",\r\n    \"comment\": \"Me gusta la informacion que compartes.\",\r\n    \"userId\": \"6225bb9db2acea1d36d9354f\",\r\n    \"postId\": \"6225bbcfb2acea1d36d93551\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LISTAR COMENTARIOS POR POST",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/comments/post/62258ece3bc81c39c391159c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								"post",
+								"62258ece3bc81c39c391159c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "REACTION",
+			"item": [
+				{
+					"name": "LISTAR REACCIONES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/reactions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reactions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GUARDAR REACCION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"LIKE\",\r\n    \"date\": \"2022-02-10T16:00:00.000+00:00\",\r\n    \"userId\": \"6224ed4c2e90827377415c81\",\r\n    \"postId\": \"62255db02e90827377415c83\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reactions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reactions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ELIMINAR REACCION",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/reactions/62259adb66579b0423ecf6b6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reactions",
+								"62259adb66579b0423ecf6b6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "LISTAR PUBLICACIONES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GUARDAR PUBLICACION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Consecuencias de la dieta cetogenica\",\r\n    \"date\": \"2022-02-16T19:00:00.000+00:00\",\r\n    \"status\": \"Publicado\",\r\n    \"content\": \"Contenido del post\",\r\n    \"blogId\": \"6225bbc2b2acea1d36d93550\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/posts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LISTAR PUBLICACIONES POR BLOG",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/posts/blog/62258215f72d60390255c96c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"posts",
+								"blog",
+								"62258215f72d60390255c96c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "LISTAR USUARIOS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GUARDAR USUARIO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"usuario1\",\r\n    \"password\": \"123456\",\r\n    \"authorId\": \"6225bb95b2acea1d36d9354e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AUTENTICAR USUARIO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"usuario1\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
