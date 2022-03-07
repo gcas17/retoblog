@@ -38,8 +38,8 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             return exchange.getResponse().writeWith(Mono.just(dataBuffer));
         }
 
-        if (ex instanceof AuthorExistsException) {
-            AuthorExistsException internalException= (AuthorExistsException) ex;
+        if (ex instanceof AuthorBadRequestException) {
+            AuthorBadRequestException internalException= (AuthorBadRequestException) ex;
             exchange.getResponse().setStatusCode(internalException.getStatus());
             DataBuffer dataBuffer = null;
             try {
@@ -92,6 +92,45 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
         if (ex instanceof UserBadRequestException) {
             UserBadRequestException internalException= (UserBadRequestException) ex;
+            exchange.getResponse().setStatusCode(internalException.getStatus());
+            DataBuffer dataBuffer = null;
+            try {
+                dataBuffer = bufferFactory.wrap(objectMapper.writeValueAsBytes(new HttpError(internalException.getMessage()) ));
+            } catch (JsonProcessingException e) {
+                dataBuffer = bufferFactory.wrap("".getBytes());
+            }
+            exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            return exchange.getResponse().writeWith(Mono.just(dataBuffer));
+        }
+
+        if (ex instanceof BlogBadRequestException) {
+            BlogBadRequestException internalException= (BlogBadRequestException) ex;
+            exchange.getResponse().setStatusCode(internalException.getStatus());
+            DataBuffer dataBuffer = null;
+            try {
+                dataBuffer = bufferFactory.wrap(objectMapper.writeValueAsBytes(new HttpError(internalException.getMessage()) ));
+            } catch (JsonProcessingException e) {
+                dataBuffer = bufferFactory.wrap("".getBytes());
+            }
+            exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            return exchange.getResponse().writeWith(Mono.just(dataBuffer));
+        }
+
+        if (ex instanceof PostBadRequestException) {
+            PostBadRequestException internalException= (PostBadRequestException) ex;
+            exchange.getResponse().setStatusCode(internalException.getStatus());
+            DataBuffer dataBuffer = null;
+            try {
+                dataBuffer = bufferFactory.wrap(objectMapper.writeValueAsBytes(new HttpError(internalException.getMessage()) ));
+            } catch (JsonProcessingException e) {
+                dataBuffer = bufferFactory.wrap("".getBytes());
+            }
+            exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            return exchange.getResponse().writeWith(Mono.just(dataBuffer));
+        }
+
+        if (ex instanceof CommentBadRequestException) {
+            CommentBadRequestException internalException= (CommentBadRequestException) ex;
             exchange.getResponse().setStatusCode(internalException.getStatus());
             DataBuffer dataBuffer = null;
             try {

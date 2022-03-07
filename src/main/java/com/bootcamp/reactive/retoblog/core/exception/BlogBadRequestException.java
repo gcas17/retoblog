@@ -1,6 +1,5 @@
 package com.bootcamp.reactive.retoblog.core.exception;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +10,12 @@ import org.springframework.http.HttpStatus;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthorExistsException extends RuntimeException {
+public class BlogBadRequestException extends RuntimeException {
 
     private HttpStatus status  = HttpStatus.BAD_REQUEST;
     private String message;
 
-    public AuthorExistsException(String message){
+    public BlogBadRequestException(String message){
         this.message = message;
     }
 

@@ -1,9 +1,10 @@
 package com.bootcamp.reactive.retoblog.services.impl;
 
-import com.bootcamp.reactive.retoblog.core.exception.AuthorExistsException;
+import com.bootcamp.reactive.retoblog.core.exception.AuthorBadRequestException;
 import com.bootcamp.reactive.retoblog.core.exception.AuthorNotFoundException;
 import com.bootcamp.reactive.retoblog.entities.Author;
 import com.bootcamp.reactive.retoblog.repositories.AuthorRepository;
+import com.bootcamp.reactive.retoblog.repositories.BlogRepository;
 import com.bootcamp.reactive.retoblog.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @Autowired
+    private BlogRepository blogRepository;
 
     @Override
     public Mono<Author> findById(String id) {
@@ -50,9 +54,8 @@ public class AuthorServiceImpl implements AuthorService {
     public Mono<Author> saveWithValidation(Author author) {
         return this.authorRepository.existsByEmail(author.getEmail())
                 .flatMap(exists-> {
-                    return !exists ? this.authorRepository.save(author): Mono.error(new AuthorExistsException("Author exists"));
+                    return !exists ? this.authorRepository.save(author): Mono.error(new AuthorBadRequestException("El autor ya existe"));
                 });
-
     }
 
     @Override

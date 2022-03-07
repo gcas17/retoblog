@@ -10,13 +10,11 @@ import org.springframework.http.HttpStatus;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlogNotFoundException extends RuntimeException {
-
-    private HttpStatus status  = HttpStatus.NOT_FOUND;
+public class CommentBadRequestException extends RuntimeException {
+    private HttpStatus status  = HttpStatus.BAD_REQUEST;
     private String message;
 
-    public BlogNotFoundException(String message){
+    public CommentBadRequestException(String message){
         this.message = message;
     }
-
 }
