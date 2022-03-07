@@ -1,5 +1,8 @@
 package com.bootcamp.reactive.retoblog.services.impl;
 
+import com.bootcamp.reactive.retoblog.core.exception.AuthorNotFoundException;
+import com.bootcamp.reactive.retoblog.core.exception.CommentBadRequestException;
+import com.bootcamp.reactive.retoblog.core.exception.ReactionNotFoundException;
 import com.bootcamp.reactive.retoblog.entities.Reaction;
 import com.bootcamp.reactive.retoblog.repositories.ReactionRepository;
 import com.bootcamp.reactive.retoblog.services.ReactionService;
@@ -16,11 +19,22 @@ public class ReactionServiceImpl implements ReactionService {
 
     @Override
     public Mono<Reaction> save(Reaction reaction) {
-        return reactionRepository.save(reaction);
+        return this.reactionRepository.existsByPostId(reaction.getPostId())
+                .flatMap(exists -> exists
+                        ? Mono.error(new CommentBadRequestException("Un usuario solo puede tener una reacción para cada post."))
+                        : this.reactionRepository.save(reaction)
+                );
     }
 
     @Override
     public Flux<Reaction> findAll() {
-        return reactionRepository.findAll();
+        return this.reactionRepository.findAll();
+    }
+
+    @Override
+    public Mono<Void> delete(String id) {
+        return this.reactionRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ReactionNotFoundException("Reaccion no encontrada")))
+                .flatMap(reaction-> this.reactionRepository.delete(reaction));
     }
 }

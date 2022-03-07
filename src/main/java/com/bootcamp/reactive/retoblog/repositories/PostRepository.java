@@ -8,4 +8,5 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface PostRepository extends ReactiveMongoRepository<Post, String> {
     Flux<Post> findByBlogId(String blogId);
+    Flux<Void> deleteByBlogId(String blogId);
 }

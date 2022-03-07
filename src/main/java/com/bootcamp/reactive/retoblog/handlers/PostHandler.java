@@ -27,4 +27,9 @@ public class PostHandler {
         return ok().contentType(APPLICATION_JSON)
                 .body(postService.findAll(), Post.class);
     }
+
+    public Mono<ServerResponse> findByBlogId(ServerRequest serverRequest) {
+        return ok().contentType(APPLICATION_JSON)
+                .body(postService.findByBlogId(serverRequest.pathVariable("authorId")), Post.class);
+    }
 }

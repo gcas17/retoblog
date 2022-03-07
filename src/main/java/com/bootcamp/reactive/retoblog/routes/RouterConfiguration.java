@@ -21,8 +21,8 @@ public class RouterConfiguration {
                 RouterFunctions
                         .route(GET(""), blogHandler::findAll)
                         .andRoute(GET("/{id}"), blogHandler::findById)
+                        .andRoute(GET("/author/{authorId}"), blogHandler::findByAuthorId)
                         .andRoute(POST("").and(contentType(APPLICATION_JSON)), blogHandler::save)
-//						.andRoute(PUT("/{id}").and(contentType(APPLICATION_JSON)), blogHandler::update)
                         .andRoute(DELETE("/{id}"), blogHandler::delete)
             );
     }
@@ -34,7 +34,6 @@ public class RouterConfiguration {
                 .route(GET(""), authorHandler::findAll)
                 .andRoute(GET("/by-email/{email}"), authorHandler::findByEmail)
                 .andRoute(GET("/query"), authorHandler::findByEmail)
-//                .andRoute(GET("/query/{email}"), authorHandler::findByEmail)
                 .andRoute(GET("/{id}"), authorHandler::findById)
                 .andRoute(POST("").and(accept(APPLICATION_JSON)),authorHandler::save)
                 .andRoute(DELETE("/{id}"), authorHandler::delete)
@@ -46,7 +45,8 @@ public class RouterConfiguration {
         return RouterFunctions.nest(RequestPredicates.path("/posts"),
                 RouterFunctions.route(GET(""), postHandler::findAll)
                 .andRoute(POST("").and(accept(APPLICATION_JSON)),postHandler::save)
-                );
+                .andRoute(GET("/blog/{authorId}"), postHandler::findByBlogId)
+            );
     }
 
     @Bean
@@ -54,6 +54,7 @@ public class RouterConfiguration {
         return RouterFunctions.nest(RequestPredicates.path("/comments"),
                 RouterFunctions.route(GET(""), commentHandler::findAll)
                         .andRoute(POST("").and(accept(APPLICATION_JSON)),commentHandler::save)
+                        .andRoute(GET("/post/{authorId}"), commentHandler::findByPostId)
         );
     }
 
@@ -62,6 +63,7 @@ public class RouterConfiguration {
         return RouterFunctions.nest(RequestPredicates.path("/reactions"),
                 RouterFunctions.route(GET(""), reactionHandler::findAll)
                         .andRoute(POST("").and(accept(APPLICATION_JSON)),reactionHandler::save)
+                        .andRoute(DELETE("/{id}"), reactionHandler::delete)
         );
     }
 

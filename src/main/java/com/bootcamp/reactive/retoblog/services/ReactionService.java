@@ -7,4 +7,5 @@ import reactor.core.publisher.Mono;
 public interface ReactionService {
     Mono<Reaction> save(Reaction reaction);
     Flux<Reaction> findAll();
+    Mono<Void> delete(String id);
 }

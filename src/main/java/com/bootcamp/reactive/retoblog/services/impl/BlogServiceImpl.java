@@ -58,4 +58,16 @@ public class BlogServiceImpl implements BlogService {
                 .flatMap(blog-> this.blogRepository.delete(blog));
 
     }
+
+    @Override
+    public Mono<Void> deleteByAuthorId(String authorId) {
+        return this.blogRepository.findByAuthorId(authorId)
+                .flatMap(blog-> this.blogRepository.deleteByAuthorId(blog.getAuthorId()))
+                .then(Mono.empty());
+    }
+
+    @Override
+    public Flux<Blog> findByAuthorId(String authorId) {
+        return this.blogRepository.findByAuthorId(authorId);
+    }
 }

@@ -3,8 +3,12 @@ package com.bootcamp.reactive.retoblog.services.impl;
 import com.bootcamp.reactive.retoblog.core.exception.AuthorBadRequestException;
 import com.bootcamp.reactive.retoblog.core.exception.AuthorNotFoundException;
 import com.bootcamp.reactive.retoblog.entities.Author;
+import com.bootcamp.reactive.retoblog.entities.Blog;
+import com.bootcamp.reactive.retoblog.entities.Post;
 import com.bootcamp.reactive.retoblog.repositories.AuthorRepository;
 import com.bootcamp.reactive.retoblog.repositories.BlogRepository;
+import com.bootcamp.reactive.retoblog.repositories.CommentRepository;
+import com.bootcamp.reactive.retoblog.repositories.PostRepository;
 import com.bootcamp.reactive.retoblog.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,12 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Autowired
     private BlogRepository blogRepository;
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Override
     public Mono<Author> findById(String id) {
@@ -62,9 +72,7 @@ public class AuthorServiceImpl implements AuthorService {
     public Mono<Void> delete(String id) {
         return this.authorRepository.findById(id)
             .switchIfEmpty(Mono.error(new AuthorNotFoundException("Author no encontrado")))
-            .flatMap(author-> {
-                return this.authorRepository.delete(author);
-            });
+            .flatMap(author-> this.authorRepository.delete(author));
     }
 
 }

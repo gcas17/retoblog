@@ -1,8 +1,10 @@
 package com.bootcamp.reactive.retoblog.services.impl;
 
 import com.bootcamp.reactive.retoblog.core.exception.PostBadRequestException;
+import com.bootcamp.reactive.retoblog.entities.Comment;
 import com.bootcamp.reactive.retoblog.entities.Post;
 import com.bootcamp.reactive.retoblog.repositories.BlogRepository;
+import com.bootcamp.reactive.retoblog.repositories.CommentRepository;
 import com.bootcamp.reactive.retoblog.repositories.PostRepository;
 import com.bootcamp.reactive.retoblog.services.PostService;
 import com.bootcamp.reactive.retoblog.util.enums.BlogStatus;
@@ -14,6 +16,8 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -23,6 +27,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private BlogRepository blogRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Override
     public Mono<Post> save(Post post) {
@@ -50,7 +57,34 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Flux<Post> findAll() {
-        return this.postRepository.findAll();
+        return this.postRepository.findAll().map(
+                post -> {
+                    List<Comment> commentList = new ArrayList<>();
+                    this.commentRepository.findByPostId(post.getId()).collectList().subscribe(commentList::addAll);
+                    post.setComments(commentList);
+                    return post;
+                }
+        );
+    }
+
+    @Override
+    public Mono<Void> deleteByAuthorId(String authorId) {
+        return this.blogRepository.findByAuthorId(authorId)
+                .flatMap(blog -> this.postRepository.findByBlogId(blog.getId()))
+                .flatMap(post -> this.postRepository.deleteById(post.getId()))
+                .then(Mono.empty());
+    }
+
+    @Override
+    public Flux<Post> findByBlogId(String blogId) {
+        return this.postRepository.findByBlogId(blogId).map(
+                post -> {
+                    List<Comment> commentList = new ArrayList<>();
+                    this.commentRepository.findByPostId(post.getId()).collectList().subscribe(commentList::addAll);
+                    post.setComments(commentList);
+                    return post;
+                }
+        );
     }
 
     private boolean validateSameDayPostByBlog(LocalDate fecha1, LocalDate fecha2) {

@@ -2,6 +2,9 @@ package com.bootcamp.reactive.retoblog.handlers;
 
 import com.bootcamp.reactive.retoblog.entities.Author;
 import com.bootcamp.reactive.retoblog.services.AuthorService;
+import com.bootcamp.reactive.retoblog.services.BlogService;
+import com.bootcamp.reactive.retoblog.services.CommentService;
+import com.bootcamp.reactive.retoblog.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -15,6 +18,15 @@ public class AuthorHandler {
 
     @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    private BlogService blogService;
+
+    @Autowired
+    private PostService postService;
+
+    @Autowired
+    private CommentService commentService;
 
     public Mono<ServerResponse> findAll(ServerRequest request){
         return ServerResponse.ok()
@@ -47,7 +59,10 @@ public class AuthorHandler {
 
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         String authorId = serverRequest.pathVariable("id");
-        return this.authorService.delete(serverRequest.pathVariable("id"))
+        return this.authorService.delete(authorId)
+                .then(this.commentService.deleteByAuthorId(authorId))
+                .then(this.postService.deleteByAuthorId(authorId))
+                .then(this.blogService.deleteByAuthorId(authorId))
                 .then(ServerResponse.ok().build());
     }
 }

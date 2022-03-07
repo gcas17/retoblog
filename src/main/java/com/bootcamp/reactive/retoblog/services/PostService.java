@@ -5,6 +5,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface PostService {
+
     Mono<Post> save(Post post);
+
     Flux<Post> findAll();
+
+    Mono<Void> deleteByAuthorId(String authorId);
+
+    Flux<Post> findByBlogId(String blogId);
+
 }

@@ -29,6 +29,11 @@ public class BlogHandler {
 
     }
 
+    public Mono<ServerResponse> findByAuthorId(ServerRequest request) {
+        return ok().contentType(APPLICATION_JSON)
+                .body(blogService.findByAuthorId(request.pathVariable("authorId")), Blog.class);
+    }
+
     public Mono<ServerResponse> save(ServerRequest request) {
 
         return request.bodyToMono(Blog.class)

@@ -1,7 +1,9 @@
 package com.bootcamp.reactive.retoblog.services.impl;
 
+import com.bootcamp.reactive.retoblog.core.exception.AuthorNotFoundException;
 import com.bootcamp.reactive.retoblog.core.exception.CommentBadRequestException;
 import com.bootcamp.reactive.retoblog.entities.Comment;
+import com.bootcamp.reactive.retoblog.repositories.BlogRepository;
 import com.bootcamp.reactive.retoblog.repositories.CommentRepository;
 import com.bootcamp.reactive.retoblog.repositories.PostRepository;
 import com.bootcamp.reactive.retoblog.services.CommentService;
@@ -20,6 +22,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private BlogRepository blogRepository;
+
     @Override
     public Mono<Comment> save(Comment comment) {
         return this.postRepository.findById(comment.getPostId())
@@ -31,5 +36,19 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Flux<Comment> findAll() {
         return commentRepository.findAll();
+    }
+
+    @Override
+    public Mono<Void> deleteByAuthorId(String authorId) {
+        return this.blogRepository.findByAuthorId(authorId)
+                .flatMap(blog -> this.postRepository.findByBlogId(blog.getId()))
+                .flatMap(post -> this.commentRepository.findByPostId(post.getId()))
+                .flatMap(comment -> this.commentRepository.deleteById(comment.getId()))
+                .then(Mono.empty());
+    }
+
+    @Override
+    public Flux<Comment> findByPostId(String postId) {
+        return commentRepository.findByPostId(postId);
     }
 }

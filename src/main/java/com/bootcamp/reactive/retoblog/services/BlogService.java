@@ -9,4 +9,6 @@ public interface BlogService {
     Flux<Blog> findAll();
     Mono<Blog> save(Blog blog);
     Mono<Void> delete(String id);
+    Mono<Void> deleteByAuthorId(String authorId);
+    Flux<Blog> findByAuthorId(String authorId);
 }

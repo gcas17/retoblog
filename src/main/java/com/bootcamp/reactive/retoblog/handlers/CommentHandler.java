@@ -28,4 +28,9 @@ public class CommentHandler {
                 .body(commentService.findAll(), Comment.class);
     }
 
+    public Mono<ServerResponse> findByPostId(ServerRequest serverRequest) {
+        return ok().contentType(APPLICATION_JSON)
+                .body(commentService.findByPostId(serverRequest.pathVariable("authorId")), Comment.class);
+    }
+
 }

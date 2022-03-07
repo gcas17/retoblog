@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.web.reactive.function.server.ServerResponse.badRequest;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component
@@ -26,5 +27,17 @@ public class ReactionHandler {
     public Mono<ServerResponse> findAll(ServerRequest serverRequest) {
         return ok().contentType(APPLICATION_JSON)
                 .body(reactionService.findAll(), Reaction.class);
+    }
+
+    public Mono<ServerResponse> delete(ServerRequest serverRequest) {
+        String reactionId = serverRequest.pathVariable("id");
+        if (!isValidId(reactionId)) return badRequest().build();
+
+        return this.reactionService.delete(serverRequest.pathVariable("id"))
+                .then(ServerResponse.noContent().build());
+    }
+
+    private boolean isValidId(String id) {
+        return id != null && id.length() > 5;
     }
 }

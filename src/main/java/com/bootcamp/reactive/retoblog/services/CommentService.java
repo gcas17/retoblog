@@ -5,6 +5,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface CommentService {
+
     Mono<Comment> save(Comment comment);
+
     Flux<Comment> findAll();
+
+    Mono<Void> deleteByAuthorId(String authorId);
+
+    Flux<Comment> findByPostId(String postId);
+
 }
