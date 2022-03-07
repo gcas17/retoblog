@@ -36,7 +36,6 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             }
             exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
             return exchange.getResponse().writeWith(Mono.just(dataBuffer));
-
         }
 
         if (ex instanceof AuthorExistsException) {
@@ -50,7 +49,6 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             }
             exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
             return exchange.getResponse().writeWith(Mono.just(dataBuffer));
-
         }
 
         if (ex instanceof AuthorNotFoundException) {
@@ -64,7 +62,45 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             }
             exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
             return exchange.getResponse().writeWith(Mono.just(dataBuffer));
+        }
 
+        if (ex instanceof UserNotFoundException) {
+            UserNotFoundException internalException= (UserNotFoundException) ex;
+            exchange.getResponse().setStatusCode(internalException.getStatus());
+            DataBuffer dataBuffer = null;
+            try {
+                dataBuffer = bufferFactory.wrap(objectMapper.writeValueAsBytes(new HttpError(internalException.getMessage()) ));
+            } catch (JsonProcessingException e) {
+                dataBuffer = bufferFactory.wrap("".getBytes());
+            }
+            exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            return exchange.getResponse().writeWith(Mono.just(dataBuffer));
+        }
+
+        if (ex instanceof UserPasswordException) {
+            UserPasswordException internalException= (UserPasswordException) ex;
+            exchange.getResponse().setStatusCode(internalException.getStatus());
+            DataBuffer dataBuffer = null;
+            try {
+                dataBuffer = bufferFactory.wrap(objectMapper.writeValueAsBytes(new HttpError(internalException.getMessage()) ));
+            } catch (JsonProcessingException e) {
+                dataBuffer = bufferFactory.wrap("".getBytes());
+            }
+            exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            return exchange.getResponse().writeWith(Mono.just(dataBuffer));
+        }
+
+        if (ex instanceof UserBadRequestException) {
+            UserBadRequestException internalException= (UserBadRequestException) ex;
+            exchange.getResponse().setStatusCode(internalException.getStatus());
+            DataBuffer dataBuffer = null;
+            try {
+                dataBuffer = bufferFactory.wrap(objectMapper.writeValueAsBytes(new HttpError(internalException.getMessage()) ));
+            } catch (JsonProcessingException e) {
+                dataBuffer = bufferFactory.wrap("".getBytes());
+            }
+            exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            return exchange.getResponse().writeWith(Mono.just(dataBuffer));
         }
 
         exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);

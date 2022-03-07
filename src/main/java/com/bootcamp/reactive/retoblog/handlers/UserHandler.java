@@ -27,4 +27,13 @@ public class UserHandler {
         return ok().contentType(APPLICATION_JSON)
                 .body(userService.findAll(), User.class);
     }
+
+    public Mono<ServerResponse> auth(ServerRequest serverRequest) {
+        Mono<User> userInput = serverRequest.bodyToMono(User.class);
+        return userInput
+                .flatMap(user -> userService.auth(user.getLogin(), user.getPassword()))
+                .flatMap(response -> ServerResponse.ok()
+                        .contentType(APPLICATION_JSON)
+                        .body(Mono.just(response), User.class));
+    }
 }

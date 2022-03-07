@@ -70,6 +70,7 @@ public class RouterConfiguration {
         return RouterFunctions.nest(RequestPredicates.path("/users"),
                 RouterFunctions.route(GET(""), userHandler::findAll)
                         .andRoute(POST("").and(accept(APPLICATION_JSON)),userHandler::save)
+                        .andRoute(POST("/auth").and(accept(APPLICATION_JSON)),userHandler::auth)
         );
     }
 }

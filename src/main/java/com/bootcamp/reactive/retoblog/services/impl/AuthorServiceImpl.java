@@ -28,11 +28,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Flux<Author> findByEmail(String email) {
-//        var authorFilter = new Author();
-//        authorFilter.setEmail(email);
-//
-//        return this.authorRepository.findAll(Example.of(authorFilter));
-
         return this.authorRepository.findByEmail(email);
     }
 
@@ -53,16 +48,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Mono<Author> saveWithValidation(Author author) {
-
-//        return this.authorRepository.existsByEmail(author.getEmail())
-//                .flatMap(exists->
-//                        {
-//                            return exists ? Mono.empty():this.authorRepository.save(author);
-//                        });
-
         return this.authorRepository.existsByEmail(author.getEmail())
-                .flatMap(exists->
-                {
+                .flatMap(exists-> {
                     return !exists ? this.authorRepository.save(author): Mono.error(new AuthorExistsException("Author exists"));
                 });
 
@@ -70,21 +57,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Mono<Void> delete(String id) {
-
         return this.authorRepository.findById(id)
             .switchIfEmpty(Mono.error(new AuthorNotFoundException("Author no encontrado")))
             .flatMap(author-> {
                 return this.authorRepository.delete(author);
             });
-
-
-
-//        return this.authorRepository.findById(id)
-//                .flatMap(author-> this.authorRepository.delete(author));
-
-
-//        return this.authorRepository.deleteById(id);
-
     }
 
 }
